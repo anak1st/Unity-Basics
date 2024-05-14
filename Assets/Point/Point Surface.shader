@@ -14,11 +14,13 @@ Shader "Custom/Point Surface"
 		struct Input {
 			float3 worldPos;
 		};
+		
 		void ConfigureSurface (Input input, inout SurfaceOutputStandard surface)
 		{
-			surface.Albedo = input.worldPos * 0.5 + 0.5;;
+			surface.Albedo = saturate(input.worldPos * 0.5 + 0.5);
 			surface.Smoothness = _Smoothness;
 		}
+		
 		ENDCG
     }
     FallBack "Diffuse"
