@@ -15,10 +15,17 @@ public class FunctionLibrary
         return functions[(int)name];
     }
     
+    public static FunctionName GetNextFunctionName(FunctionName name)
+    {
+        int id = (int)name;
+        id = (id + 1) % functions.Length;
+        return (FunctionName)id;
+    }
+    
     public static Vector3 Wave (float u, float v, float t) {
         Vector3 p;
         p.x = u;
-        p.y = Sin(PI * (u + v + t));
+        p.y = 0.2f * Sin(PI * (u + v + t));
         p.z = v;
         return p;
     }
@@ -29,7 +36,7 @@ public class FunctionLibrary
         p.y = Sin(PI * (u + 0.5f * t));
         p.y += 0.5f * Sin(2f * PI * (v + t));
         p.y += Sin(PI * (u + v + 0.25f * t));
-        p.y *= 1f / 2.5f;
+        p.y *= 1f / 5f;
         p.z = v;
         return p;
     }
@@ -62,6 +69,7 @@ public class FunctionLibrary
         p.x = s * Sin(PI * u);
         p.y = r2 * Sin(PI * v);
         p.z = s * Cos(PI * u);
+        p *= 1.2f;
         return p;
     }
     

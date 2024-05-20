@@ -15,6 +15,11 @@ public class Graph : MonoBehaviour
     
     private Transform[] points;
     
+    [SerializeField, Min(0f)]
+    float functionDuration = 1f;
+    
+    float duration;
+    
     void Resize()
     {
         if (points != null && points.Length == resolution * resolution)
@@ -54,6 +59,15 @@ public class Graph : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        duration += Time.deltaTime;
+        if (duration >= functionDuration) {
+            duration -= functionDuration;
+            function = FunctionLibrary.GetNextFunctionName(function);
+        }
+        UpdateFunction();
+    }
+
+    void UpdateFunction() {
         if (points.Length != resolution * resolution)
         {
             Resize();
