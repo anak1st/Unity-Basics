@@ -13,12 +13,19 @@ public class Graph : MonoBehaviour
     [SerializeField]
     FunctionLibrary.FunctionName function;
     
+    FunctionLibrary.FunctionName transitionFunction;
+    
     private Transform[] points;
     
     [SerializeField, Min(0f)]
     float functionDuration = 1f;
     
+    [SerializeField, Min(0f)]
+    float transitionDuration = 1f;
+    
     float duration;
+    
+    bool transitioning;
     
     void Resize()
     {
@@ -60,11 +67,35 @@ public class Graph : MonoBehaviour
     void Update()
     {
         duration += Time.deltaTime;
-        if (duration >= functionDuration) {
-            duration -= functionDuration;
-            function = FunctionLibrary.GetNextFunctionName(function);
+
+        if (transitioning)
+        {
+            if (duration >= transitionDuration)
+            {
+                duration -= transitionDuration;
+                transitioning = false;
+            }
         }
-        UpdateFunction();
+        else
+        {
+            if (duration >= functionDuration) {
+                duration -= functionDuration;
+                transitioning = true;
+                transitionFunction = function;
+                PickNextFunction();
+            }
+        }
+        
+        if (transitioning) {
+            UpdateFunctionTransition();
+        }
+        else {
+            UpdateFunction();
+        }
+    }
+    
+    void PickNextFunction() {
+        function = FunctionLibrary.GetNextFunctionName(function);
     }
 
     void UpdateFunction() {
@@ -76,8 +107,8 @@ public class Graph : MonoBehaviour
         float time = Time.time;
         FunctionLibrary.Function f = FunctionLibrary.GetFunction(function);
         float step = 2f / resolution;
-        
-        float u = 0.5f * step - 1f;
+
+        float u;
         float v = 0.5f * step - 1f;
         for (int i = 0, x = 0, z = 0; i < points.Length; i++, x++) {
             if (x == resolution) {
@@ -88,6 +119,33 @@ public class Graph : MonoBehaviour
             u = (x + 0.5f) * step - 1f;
             
             points[i].localPosition = f(u, v, time);
+        }
+    }
+    
+    void UpdateFunctionTransition () {
+        if (points.Length != resolution * resolution)
+        {
+            Resize();
+        }
+        
+        FunctionLibrary.Function from = FunctionLibrary.GetFunction(transitionFunction);
+        FunctionLibrary.Function to = FunctionLibrary.GetFunction(function);
+        
+        float progress = duration / transitionDuration;
+        float time = Time.time;
+        float step = 2f / resolution;
+
+        float u;
+        float v = 0.5f * step - 1f;
+        for (int i = 0, x = 0, z = 0; i < points.Length; i++, x++) {
+            if (x == resolution) {
+                x = 0;
+                z += 1;
+                v = (z + 0.5f) * step - 1f;
+            }
+            u = (x + 0.5f) * step - 1f;
+            
+            points[i].localPosition = FunctionLibrary.Morph(u, v, time, from, to, progress);
         }
     }
 }

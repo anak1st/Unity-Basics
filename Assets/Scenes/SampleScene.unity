@@ -687,7 +687,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1913607144}
-  - component: {fileID: 1913607143}
+  - component: {fileID: 1913607145}
   m_Layer: 0
   m_Name: Graph
   m_TagString: Untagged
@@ -695,21 +695,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1913607143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1913607142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 745d9335d9304884fad30a7323611efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointPrefab: {fileID: 1833294779294202420, guid: 4f6b75141b7e1514fac7d5e981f63193, type: 3}
-  resolution: 100
-  function: 0
 --- !u!4 &1913607144
 Transform:
   m_ObjectHideFlags: 0
@@ -725,6 +710,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1913607145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1913607142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40daa9548a124b0fa9834375e1799d26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resolution: 100
+  function: 0
+  functionDuration: 1
+  transitionDuration: 1
+  computeShader: {fileID: 7200000, guid: dfbdbb6fbd312f741b133574bd574f78, type: 3}
+  material: {fileID: 2100000, guid: 1b485b2c7e190434e9072ec92772cfc2, type: 2}
+  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1983365493
 GameObject:
   m_ObjectHideFlags: 0
